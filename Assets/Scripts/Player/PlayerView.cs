@@ -10,7 +10,7 @@ public sealed class PlayerView : MonoBehaviour, ITakeDamage
 {
     private PlayerModel _model = null;
 
-    public Action<AsyncOperation> OnPlayerDied { get; set; } = null;
+    public Action OnPlayerDied { get; set; } = null;
 
     private void Awake()
     {
@@ -40,6 +40,8 @@ public sealed class PlayerView : MonoBehaviour, ITakeDamage
 
     private void Die()
     {
+        OnPlayerDied?.Invoke();
+
         Destroy(gameObject);
     }
 }

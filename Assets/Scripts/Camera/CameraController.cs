@@ -24,6 +24,16 @@ public sealed class CameraController : MonoBehaviour
         _offset = transform.position - _target.transform.position;
     }
 
+    private void OnEnable()
+    {
+        FindObjectOfType<PlayerView>().OnPlayerDied += OnPlayerDied;
+    }
+
+    private void OnDisable()
+    {
+        FindObjectOfType<PlayerView>().OnPlayerDied -= OnPlayerDied;
+    }
+
     private void FixedUpdate()
     {
         Follow();
@@ -33,5 +43,10 @@ public sealed class CameraController : MonoBehaviour
     {
         Vector3 destination = _offset + _target.transform.position;
         transform.position = Vector3.MoveTowards(transform.position, destination, _followSpeed * Time.deltaTime);
+    }
+
+    private void OnPlayerDied()
+    {
+        Destroy(this);
     }
 }

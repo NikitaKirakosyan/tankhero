@@ -50,12 +50,12 @@ public sealed class MovementJoystic : Singleton<MovementJoystic>, IDragHandler, 
 
     private void OnEnable()
     {
-        //_playerView.OnPlayerDied += OnPlayerDied;
+        _playerView.OnPlayerDied += OnPlayerDied;
     }
 
     private void OnDisable()
     {
-        //_playerView.OnPlayerDied -= OnPlayerDied;
+        _playerView.OnPlayerDied -= OnPlayerDied;
     }
 
     private void FixedUpdate()
@@ -78,6 +78,6 @@ public sealed class MovementJoystic : Singleton<MovementJoystic>, IDragHandler, 
 
     private void OnPlayerDied()
     {
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject);
     }
 }
