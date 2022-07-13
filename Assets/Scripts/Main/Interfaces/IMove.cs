@@ -6,5 +6,5 @@ using UnityEngine;
 
 public interface IMove
 {
-    public void MoveRigidbodyPosition(Rigidbody rigidbody, Vector3 direction, float acceleration, float speed, Space relativeTo = Space.Self);
+    public void MoveRigidbodyPosition(Rigidbody rigidbody, Vector3 direction, float acceleration, float speed);
 }

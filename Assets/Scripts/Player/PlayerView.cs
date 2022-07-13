@@ -7,11 +7,18 @@ using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(PlayerModel))]
-public sealed class PlayerView : CreatureView
+public sealed class PlayerView : TankView
 {
     [Inject] private PlayerModel _model = null;
 
     public Action OnPlayerDied { get; set; } = null;
+
+    public override void Die()
+    {
+        OnPlayerDied?.Invoke();
+
+        Destroy(gameObject);
+    }
 
     public override void TakeDamage(int damage)
     {
@@ -23,13 +30,6 @@ public sealed class PlayerView : CreatureView
         }
     }
 
-    public void Move(Vector3 direction, float acceleration, Space relativeTo = Space.Self) =>
+    public void Move(Vector3 direction, float acceleration) =>
         MoveRigidbodyPosition(_model.Rigidbody, direction, acceleration, _model.MovementSpeed * Time.deltaTime);
-
-    public override void Die()
-    {
-        OnPlayerDied?.Invoke();
-
-        Destroy(gameObject);
-    }
 }

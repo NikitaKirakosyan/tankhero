@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(NavMeshAgent))]
-public sealed class EnemyModel : CreatureModel
+public sealed class EnemyModel : TankModel
 {
     [Header("Way Points Settings")]
     [SerializeField] private Transform[] _wayPoints = new Transform[0];
@@ -17,16 +17,22 @@ public sealed class EnemyModel : CreatureModel
     public bool InverseWay { get; set; } = false;
     public int CurrentWayIndex { get; set; }
 
-    public DetectionArea DetectionArea { get; private set; } = null;
-
-    public Rigidbody Rigidbody { get; private set; } = null;
-    public NavMeshAgent Agent { get; private set; } = null;
-
-    private void Awake()
+    private EnemyDetectionArea _detectionArea = null;
+    public EnemyDetectionArea DetectionArea
     {
-        DetectionArea = GetComponentInChildren<DetectionArea>();
+        get
+        {
+            _detectionArea = GetComponentInChildren<EnemyDetectionArea>();
+            if (_detectionArea == null)
+            {
+                Debug.LogError("Detection Area missed! Created new with default");
+                _detectionArea = InitializeDetectionArea<EnemyDetectionArea>();
+            }
 
-        Rigidbody = GetComponent<Rigidbody>();
-        Agent = GetComponent<NavMeshAgent>();
+            return _detectionArea;
+        }
     }
+
+    private NavMeshAgent _agent = null;
+    public NavMeshAgent Agent => _agent == null ? _agent = GetComponent<NavMeshAgent>() : _agent;
 }

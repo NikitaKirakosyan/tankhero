@@ -2,16 +2,28 @@
  * author : Kirakosyan Nikita
  * e-mail : nikita.kirakosyan.work@gmail.com
  */
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyModel))]
-public sealed class EnemyView : CreatureView
+public sealed class EnemyView : TankView
 {
     private EnemyModel _model = null;
 
     private void Awake()
     {
         _model = GetComponent<EnemyModel>();
+    }
+
+    private void OnEnable()
+    {
+        EnemiesPool.AddToActive(transform);
+    }
+
+    public override void Die()
+    {
+        EnemiesPool.AddToInactive(transform);
+        Respawn().Forget();
     }
 
     public override void TakeDamage(int damage)
@@ -53,5 +65,19 @@ public sealed class EnemyView : CreatureView
                 _model.CurrentWayIndex++;
             }
         }
+    }
+
+    private void MoveToBeggingOfWay()
+    {
+        transform.position = _model.WayPoints[0].position;
+    }
+
+    private async UniTask Respawn()
+    {
+        MoveToBeggingOfWay();
+
+        await UniTask.Delay(1000);
+
+        EnemiesPool.AddToActive(transform);
     }
 }

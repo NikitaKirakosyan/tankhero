@@ -16,10 +16,22 @@ public sealed class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
+        Vector3 target = transform.position + transform.forward;
+
+        if (_model.DetectionArea.TargetEnemies != null && _model.DetectionArea.TargetEnemies.Count > 0)
+        {
+            target = _model.DetectionArea.TargetEnemies[0].transform.position;
+            _model.TankHead.LookAt(target, _model.tankHeadAngularSpeed * Time.deltaTime);
+        }
+        else
+        {
+            _model.TankHead.LookAt(target, _model.tankHeadAngularSpeed * Time.deltaTime);
+        }
+
         if (_movementJoystic.Direction != Vector3.zero)
         {
             Vector3 direction = new Vector3(_movementJoystic.Direction.x, 0, _movementJoystic.Direction.y);
-            transform.rotation = _view.LookAt(direction, _model.AngularSpeed * Time.deltaTime);
+            transform.LookAt(direction, _model.AngularSpeed * Time.deltaTime);
         }
     }
 
