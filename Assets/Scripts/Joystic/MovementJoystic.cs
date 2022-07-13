@@ -58,11 +58,6 @@ public sealed class MovementJoystic : Singleton<MovementJoystic>, IDragHandler, 
         _playerView.OnPlayerDied -= OnPlayerDied;
     }
 
-    private void FixedUpdate()
-    {
-        _playerView.Move(Vector3.forward, OffsetDistance);
-    }
-
     public void OnDrag(PointerEventData eventData)
     {
         RectTransform.position = Input.mousePosition;

@@ -6,7 +6,7 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerModel))]
-public sealed class PlayerView : MonoBehaviour, ITakeDamage
+public sealed class PlayerView : CreatureView
 {
     private PlayerModel _model = null;
 
@@ -17,7 +17,7 @@ public sealed class PlayerView : MonoBehaviour, ITakeDamage
         _model = GetComponent<PlayerModel>();
     }
 
-    public void TakeDamage(int damage)
+    public override void TakeDamage(int damage)
     {
         _model.health -= damage;
 
@@ -27,18 +27,15 @@ public sealed class PlayerView : MonoBehaviour, ITakeDamage
         }
     }
 
-    public void Move(Vector3 direction, float acceleration, Space relativeTo = Space.Self)
-    {
-        direction = (relativeTo == Space.Self) ? transform.TransformDirection(direction) : direction;
-        _model.Rigidbody.MovePosition(_model.Rigidbody.position + direction * acceleration * _model.MovementSpeed * Time.deltaTime);
-    }
+    public void Move(Vector3 direction, float acceleration, Space relativeTo = Space.Self) =>
+        MoveRigidbodyPosition(_model.Rigidbody, direction, acceleration, _model.MovementSpeed);
 
     public void SetRotation(float y)
     {
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, y, transform.localEulerAngles.z);
     }
 
-    private void Die()
+    public override void Die()
     {
         OnPlayerDied?.Invoke();
 

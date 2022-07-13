@@ -229,14 +229,14 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2963548124158382539}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: -1372625422
   m_Radius: 1.3
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 5
+  m_Acceleration: 15
   avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_AngularSpeed: 8
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -256,7 +256,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eeccffd1fdd549438605bc727ac7480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wayPoints: []
+  health: 5
+  _wayPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  LoopWay: 1
 --- !u!114 &391572962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -652,6 +657,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2395798059928284113}
   - component: {fileID: 2464869829515078657}
+  - component: {fileID: 1005122650}
   m_Layer: 2
   m_Name: Detection Area
   m_TagString: Untagged
@@ -687,6 +693,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 6
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1005122650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6672188101968960138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2290279eba0554379bac865b55a6b1f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 6
 --- !u!1 &8280838178215167576
 GameObject:
   m_ObjectHideFlags: 0

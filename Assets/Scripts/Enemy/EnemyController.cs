@@ -16,4 +16,19 @@ public sealed class EnemyController : MonoBehaviour
         _model = GetComponent<EnemyModel>();
         _view = GetComponent<EnemyView>();
     }
+
+    private void Update()
+    {
+        transform.rotation = _view.LookAt(_model.WayPoints[_model.CurrentWayIndex].position);
+    }
+
+    private void FixedUpdate()
+    {
+        _view.MoveRigidbodyPosition(_model.Rigidbody, transform.forward, 1.0f, _model.Agent.speed);
+
+        if (Vector3.Distance(transform.position, _model.WayPoints[_model.CurrentWayIndex].position) <= _model.Agent.stoppingDistance)
+        {
+            _view.NextWayPoint();
+        }
+    }
 }

@@ -16,4 +16,9 @@ public sealed class PlayerController : MonoBehaviour
         _model = GetComponent<PlayerModel>();
         _view = GetComponent<PlayerView>();
     }
+
+    private void FixedUpdate()
+    {
+        _view.Move(transform.forward, MovementJoystic.Instance.OffsetDistance);
+    }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public sealed class CameraController : MonoBehaviour
 {
-    [SerializeField] private PlayerModel _target = null;
+    [SerializeField] private PlayerModel _targetPlayer = null;
 
     [SerializeField] private float _deltaSpeed = 0.0f;
     private float _followSpeed = 3.5f;
@@ -15,13 +15,13 @@ public sealed class CameraController : MonoBehaviour
 
     private void Awake()
     {
-        if (_target == null)
+        if (_targetPlayer == null)
         {
-            _target = FindObjectOfType<PlayerModel>(true);
+            _targetPlayer = FindObjectOfType<PlayerModel>(true);
         }
 
-        _followSpeed = _target.MovementSpeed + _deltaSpeed;
-        _offset = transform.position - _target.transform.position;
+        _followSpeed = _targetPlayer.MovementSpeed + _deltaSpeed;
+        _offset = transform.position - _targetPlayer.transform.position;
     }
 
     private void OnEnable()
@@ -41,7 +41,7 @@ public sealed class CameraController : MonoBehaviour
 
     private void Follow()
     {
-        Vector3 destination = _offset + _target.transform.position;
+        Vector3 destination = _offset + _targetPlayer.transform.position;
         transform.position = Vector3.MoveTowards(transform.position, destination, _followSpeed * Time.deltaTime);
     }
 
