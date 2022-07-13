@@ -7,7 +7,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public sealed class NavMeshBuilder : Singleton<NavMeshBuilder>
+public sealed class NavMeshBuilder : MonoBehaviour
 {
     public List<NavMeshSurface> Surfaces { get; private set; } = new List<NavMeshSurface>(2);
 
@@ -21,13 +21,13 @@ public sealed class NavMeshBuilder : Singleton<NavMeshBuilder>
         BakeNavMesh();
     }
 
-    public static void BakeNavMesh()
+    public void BakeNavMesh()
     {
-        Instance.Surfaces.ForEach(surface => surface.BuildNavMesh());
+        Surfaces.ForEach(surface => surface.BuildNavMesh());
     }
 
-    public static void UpdateNavMesh()
+    public void UpdateNavMesh()
     {
-        Instance.Surfaces.ForEach(surface => surface.UpdateNavMesh(surface.navMeshData));
+        Surfaces.ForEach(surface => surface.UpdateNavMesh(surface.navMeshData));
     }
 }

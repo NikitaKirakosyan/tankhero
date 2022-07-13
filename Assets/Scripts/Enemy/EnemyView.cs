@@ -24,16 +24,6 @@ public sealed class EnemyView : CreatureView
         }
     }
 
-    public Quaternion LookAt(Vector3 target)
-    {
-        Vector3 lookPos = target - transform.position;
-        lookPos.y = 0;
-
-        Quaternion rotation = Quaternion.LookRotation(lookPos);
-
-        return Quaternion.Slerp(transform.rotation, rotation, _model.Agent.angularSpeed * Time.deltaTime);
-    }
-
     public void NextWayPoint()
     {
         if (!_model.InverseWay)

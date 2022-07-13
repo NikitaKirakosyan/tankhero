@@ -19,12 +19,12 @@ public sealed class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        transform.rotation = _view.LookAt(_model.WayPoints[_model.CurrentWayIndex].position);
+        transform.rotation = _view.LookAt(_model.WayPoints[_model.CurrentWayIndex].position, _model.Agent.angularSpeed * Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
-        _view.MoveRigidbodyPosition(_model.Rigidbody, transform.forward, 1.0f, _model.Agent.speed);
+        _view.MoveRigidbodyPosition(_model.Rigidbody, transform.forward, 1.0f, _model.Agent.speed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, _model.WayPoints[_model.CurrentWayIndex].position) <= _model.Agent.stoppingDistance)
         {

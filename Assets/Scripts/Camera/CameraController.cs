@@ -3,10 +3,12 @@
  * e-mail : nikita.kirakosyan.work@gmail.com
  */
 using UnityEngine;
+using Zenject;
 
 public sealed class CameraController : MonoBehaviour
 {
-    [SerializeField] private PlayerModel _targetPlayer = null;
+    [Inject] private PlayerModel _targetPlayer = null;
+    [Inject] private PlayerView _playerView = null;
 
     [SerializeField] private float _deltaSpeed = 0.0f;
     private float _followSpeed = 3.5f;
@@ -15,23 +17,18 @@ public sealed class CameraController : MonoBehaviour
 
     private void Awake()
     {
-        if (_targetPlayer == null)
-        {
-            _targetPlayer = FindObjectOfType<PlayerModel>(true);
-        }
-
         _followSpeed = _targetPlayer.MovementSpeed + _deltaSpeed;
         _offset = transform.position - _targetPlayer.transform.position;
     }
 
     private void OnEnable()
     {
-        FindObjectOfType<PlayerView>().OnPlayerDied += OnPlayerDied;
+        _playerView.OnPlayerDied += OnPlayerDied;
     }
 
     private void OnDisable()
     {
-        FindObjectOfType<PlayerView>().OnPlayerDied -= OnPlayerDied;
+        _playerView.OnPlayerDied -= OnPlayerDied;
     }
 
     private void FixedUpdate()

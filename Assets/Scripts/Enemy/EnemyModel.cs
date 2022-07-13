@@ -9,6 +9,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public sealed class EnemyModel : CreatureModel
 {
+    [Header("Way Points Settings")]
     [SerializeField] private Transform[] _wayPoints = new Transform[0];
     public Transform[] WayPoints => _wayPoints;
 

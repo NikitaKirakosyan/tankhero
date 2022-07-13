@@ -4,17 +4,18 @@
  */
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 [RequireComponent(typeof(RectTransform))]
-public sealed class MovementJoystic : Singleton<MovementJoystic>, IDragHandler, IEndDragHandler
+public sealed class MovementJoystic : MonoBehaviour, IDragHandler, IEndDragHandler
 {
-    [SerializeField] private PlayerView _playerView = null;
+    [Inject] private PlayerView _playerView = null;
 
-    public Vector2 Direction
+    public Vector3 Direction
     {
         get
         {
-            return RectTransform.anchoredPosition - Vector2.zero;
+            return (Vector3)RectTransform.anchoredPosition - Vector3.zero;
         }
     }
     public float OffsetDistance
@@ -41,11 +42,6 @@ public sealed class MovementJoystic : Singleton<MovementJoystic>, IDragHandler, 
     {
         RectTransform = GetComponent<RectTransform>();
         RectParent = RectTransform.parent.GetComponent<RectTransform>();
-
-        if (_playerView == null)
-        {
-            _playerView = FindObjectOfType<PlayerView>(true);
-        }
     }
 
     private void OnEnable()
@@ -62,8 +58,6 @@ public sealed class MovementJoystic : Singleton<MovementJoystic>, IDragHandler, 
     {
         RectTransform.position = Input.mousePosition;
         RectTransform.anchoredPosition = Vector2.ClampMagnitude(RectTransform.anchoredPosition, RectParent.sizeDelta.x / 2);
-
-        _playerView.SetRotation(OffsetAngle);
     }
 
     public void OnEndDrag(PointerEventData eventData)

@@ -4,18 +4,14 @@
  */
 using System;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(PlayerModel))]
 public sealed class PlayerView : CreatureView
 {
-    private PlayerModel _model = null;
+    [Inject] private PlayerModel _model = null;
 
     public Action OnPlayerDied { get; set; } = null;
-
-    private void Awake()
-    {
-        _model = GetComponent<PlayerModel>();
-    }
 
     public override void TakeDamage(int damage)
     {
@@ -28,12 +24,7 @@ public sealed class PlayerView : CreatureView
     }
 
     public void Move(Vector3 direction, float acceleration, Space relativeTo = Space.Self) =>
-        MoveRigidbodyPosition(_model.Rigidbody, direction, acceleration, _model.MovementSpeed);
-
-    public void SetRotation(float y)
-    {
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, y, transform.localEulerAngles.z);
-    }
+        MoveRigidbodyPosition(_model.Rigidbody, direction, acceleration, _model.MovementSpeed * Time.deltaTime);
 
     public override void Die()
     {
