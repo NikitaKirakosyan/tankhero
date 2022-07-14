@@ -257,6 +257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
+  tankHeadAngularSpeed: 10
   _tankHead: {fileID: 367738152828308082}
   _wayPoints:
   - {fileID: 0}
