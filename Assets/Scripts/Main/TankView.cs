@@ -13,7 +13,7 @@ public abstract class TankView : MonoBehaviour, ITakeDamage, IMove
         Destroy(gameObject);
     }
 
-    public void MoveRigidbodyPosition(Rigidbody rigidbody, Vector3 direction, float acceleration, float speed)
+    public virtual void MoveRigidbodyPosition(Rigidbody rigidbody, Vector3 direction, float acceleration, float speed)
     {
         rigidbody.MovePosition(rigidbody.position + direction * acceleration * speed);
     }
