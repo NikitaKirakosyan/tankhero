@@ -7,7 +7,9 @@ using UnityEngine;
 public abstract class TankModel : MonoBehaviour
 {
     [Header("Tank Characteristics")]
-    public int health = 5;
+    [Min(0)] public int health = 5;
+    [Min(1)] public int maxHealth = 5;
+    [Min(0)] public int collisionDamage = 1;
 
     [Header("Parts of Tank")]
     public float tankHeadAngularSpeed = 10.0f;

@@ -8,7 +8,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(EnemyModel))]
 [RequireComponent(typeof(EnemyView))]
-public sealed class EnemyController : MonoBehaviour
+public sealed class EnemyController : TankController
 {
     private EnemyModel _model = null;
     private EnemyView _view = null;

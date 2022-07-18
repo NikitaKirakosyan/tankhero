@@ -7,12 +7,19 @@ using Zenject;
 
 [RequireComponent(typeof(PlayerModel))]
 [RequireComponent(typeof(PlayerView))]
-public sealed class PlayerController : MonoBehaviour
+public sealed class PlayerController : TankController
 {
     [Inject] private PlayerModel _model = null;
     [Inject] private PlayerView _view = null;
 
     [Inject] private MovementJoystic _movementJoystic = null;
+
+    private void Awake()
+    {
+        _model.HealthBar.minValue = 0;
+        _model.HealthBar.maxValue = _model.maxHealth;
+        _view.RefreshUI();
+    }
 
     private void LateUpdate()
     {
@@ -21,12 +28,9 @@ public sealed class PlayerController : MonoBehaviour
         if (_model.DetectionArea.TargetEnemies != null && _model.DetectionArea.TargetEnemies.Count > 0)
         {
             target = _model.DetectionArea.TargetEnemies[0].transform.position;
-            _model.TankHead.LookAt(target, _model.tankHeadAngularSpeed * Time.deltaTime);
         }
-        else
-        {
-            _model.TankHead.LookAt(target, _model.tankHeadAngularSpeed * Time.deltaTime);
-        }
+
+        _model.TankHead.LookAt(target, _model.tankHeadAngularSpeed * Time.deltaTime);
 
         if (_movementJoystic.Direction != Vector3.zero)
         {

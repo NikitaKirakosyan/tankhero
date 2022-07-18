@@ -487,10 +487,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
+  collisionDamage: 1
   tankHeadAngularSpeed: 10
   _tankHead: {fileID: 4644221591356602212}
   AngularSpeed: 30
   MovementSpeed: 5
+  _healthBar: {fileID: 0}
 --- !u!114 &465313139668961092
 MonoBehaviour:
   m_ObjectHideFlags: 0

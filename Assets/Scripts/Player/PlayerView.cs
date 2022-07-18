@@ -23,6 +23,7 @@ public sealed class PlayerView : TankView
     public override void TakeDamage(int damage)
     {
         _model.health -= damage;
+        RefreshUI();
 
         if (_model.health <= 0)
         {
@@ -32,4 +33,9 @@ public sealed class PlayerView : TankView
 
     public void Move(Vector3 direction, float acceleration) =>
         MoveRigidbodyPosition(_model.Rigidbody, direction, acceleration, _model.MovementSpeed * Time.deltaTime);
+
+    public void RefreshUI()
+    {
+        _model.HealthBar.value = _model.health;
+    }
 }
