@@ -18,9 +18,22 @@ public sealed class EnemyView : TankView
         _model = GetComponent<EnemyModel>();
     }
 
+    public void OnTargetFinded()
+    {
+        CalculatePath();
+        SetTankCanonShootingState(true);
+    }
+
+    public void OnTargetLost()
+    {
+        CalculatePath();
+        SetTankCanonShootingState(false);
+    }
+
     public override void Die()
     {
         EnemiesPool.AddToInactive(transform);
+
         Respawn().Forget();
     }
 
@@ -91,6 +104,7 @@ public sealed class EnemyView : TankView
 
         await UniTask.Delay(1000);
 
+        _model.health = _model.maxHealth;
         EnemiesPool.AddToActive(transform);
     }
 

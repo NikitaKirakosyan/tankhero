@@ -19,8 +19,8 @@ public sealed class EnemyDetectionArea : DetectionArea
     public PlayerView FindedPlayer { get; private set; } = null;
     public PlayerView CurrentEnteredPlayer { get; private set; } = null;
 
-    public Action OnTargetPlayerFinded { get; set; } = null;
-    public Action OnTargetPlayerLost { get; set; } = null;
+    public override Action OnTargetFinded { get; set; } = null;
+    public override Action OnTargetLost { get; set; } = null;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,21 +29,24 @@ public sealed class EnemyDetectionArea : DetectionArea
         {
             CurrentEnteredPlayer = enteredPlayer;
             FindedPlayer = enteredPlayer;
-            OnTargetPlayerFinded?.Invoke();
+            OnTargetFinded?.Invoke();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        PlayerView enteredPlayer = other.GetComponent<PlayerView>();
-        if (enteredPlayer != null)
+        PlayerView outPlayer = other.GetComponent<PlayerView>();
+        if (outPlayer != null)
         {
-            CurrentEnteredPlayer = null;
-            if (!PlayerLostAsyncStarted)
-            {
-                OnTargetPlayerLostAsync().Forget();
-            }
+            LosePlayer();
         }
+    }
+
+    public void ImmediateLosePlayer()
+    {
+        CurrentEnteredPlayer = null;
+        FindedPlayer = CurrentEnteredPlayer;
+        OnTargetLost?.Invoke();
     }
 
     private async UniTask OnTargetPlayerLostAsync()
@@ -55,9 +58,18 @@ public sealed class EnemyDetectionArea : DetectionArea
         FindedPlayer = CurrentEnteredPlayer;
         if (FindedPlayer == null)
         {
-            OnTargetPlayerLost?.Invoke();
+            OnTargetLost?.Invoke();
         }
 
         PlayerLostAsyncStarted = false;
+    }
+
+    private void LosePlayer()
+    {
+        CurrentEnteredPlayer = null;
+        if (!PlayerLostAsyncStarted)
+        {
+            OnTargetPlayerLostAsync().Forget();
+        }
     }
 }

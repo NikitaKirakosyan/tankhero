@@ -15,9 +15,19 @@ public abstract class TankModel : MonoBehaviour
     public float tankHeadAngularSpeed = 10.0f;
     [SerializeField] private Transform _tankHead = null;
     public Transform TankHead => _tankHead;
+    [SerializeField] private TankCanon _tankCanon = null;
+    public TankCanon TankCanon => _tankCanon;
 
     private Rigidbody _rigidbody = null;
     public Rigidbody Rigidbody => _rigidbody == null ? _rigidbody = GetComponent<Rigidbody>() : _rigidbody;
+
+    private void OnValidate()
+    {
+        if (health > maxHealth)
+        {
+            maxHealth = health;
+        }
+    }
 
     protected T InitializeDetectionArea<T>(string newDetectionAreaName = "Detection Area") where T : DetectionArea
     {
@@ -26,5 +36,10 @@ public abstract class TankModel : MonoBehaviour
         detectionArea.transform.localPosition = Vector3.zero;
 
         return detectionArea.AddComponent(typeof(T)) as T;
+    }
+
+    public T GetDetectionArea<T>() where T : DetectionArea
+    {
+        return transform.GetComponentInChildren(typeof(T)) as T;
     }
 }

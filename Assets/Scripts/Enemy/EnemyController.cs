@@ -30,14 +30,18 @@ public sealed class EnemyController : TankController
     {
         EnemiesPool.AddToActive(transform);
 
-        _model.DetectionArea.OnTargetPlayerFinded += _view.CalculatePath;
-        _model.DetectionArea.OnTargetPlayerLost += _view.CalculatePath;
+        _model.DetectionArea.OnTargetFinded += _view.OnTargetFinded;
+        _model.DetectionArea.OnTargetLost += _view.OnTargetLost;
     }
 
     private void OnDisable()
     {
-        _model.DetectionArea.OnTargetPlayerFinded -= _view.CalculatePath;
-        _model.DetectionArea.OnTargetPlayerLost -= _view.CalculatePath;
+        PlayerDetectionArea playerDetectionArea = FindObjectOfType<PlayerDetectionArea>(true);
+        playerDetectionArea?.ImmediateExitTrigger(GetComponent<Collider>());
+
+        _model.DetectionArea.ImmediateLosePlayer();
+        _model.DetectionArea.OnTargetFinded -= _view.OnTargetFinded;
+        _model.DetectionArea.OnTargetLost -= _view.OnTargetLost;
     }
 
     private void Start()

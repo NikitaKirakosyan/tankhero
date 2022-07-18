@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &298623309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 298623310}
+  m_Layer: 6
+  m_Name: Bullet Spawn Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &298623310
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298623309}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 367738152828308082}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1586296502890771221
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,8 +288,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 5
+  maxHealth: 5
+  collisionDamage: 1
   tankHeadAngularSpeed: 10
   _tankHead: {fileID: 367738152828308082}
+  _tankCanon: {fileID: 740762724}
   canPush: 1
   _wayPoints:
   - {fileID: 0}
@@ -397,6 +431,7 @@ GameObject:
   - component: {fileID: 2383997878430260180}
   - component: {fileID: 2660395838546426056}
   - component: {fileID: 4214214570994145790}
+  - component: {fileID: 740762724}
   m_Layer: 6
   m_Name: TankFree_Canon
   m_TagString: Untagged
@@ -469,6 +504,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &740762724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3600229342836741861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c10be58550d4e62b7e109e47a8240a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _reloadTimeInSeconds: 1
+  bulletPrefabs:
+  - {fileID: 2954506080682073600, guid: 1bef56d5cb5a545f2aedd38445d48496, type: 3}
+  _bulletSpawnPoint: {fileID: 298623310}
 --- !u!1 &4298067460509528794
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,6 +551,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2383997878430260180}
+  - {fileID: 298623310}
   m_Father: {fileID: 3491425768315233914}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -661,7 +713,7 @@ GameObject:
   - component: {fileID: 2395798059928284113}
   - component: {fileID: 2464869829515078657}
   - component: {fileID: 1672731731}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Detection Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -694,7 +746,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 8
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1672731731
 MonoBehaviour:
@@ -708,7 +760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de89f6f48a6874207890ba5b7b0c0570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radius: 8
+  _radius: 10
 --- !u!1 &8280838178215167576
 GameObject:
   m_ObjectHideFlags: 0

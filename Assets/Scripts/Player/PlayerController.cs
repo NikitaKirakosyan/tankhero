@@ -2,6 +2,7 @@
  * author : Kirakosyan Nikita
  * e-mail : nikita.kirakosyan.work@gmail.com
  */
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -19,6 +20,17 @@ public sealed class PlayerController : TankController
         _model.HealthBar.minValue = 0;
         _model.HealthBar.maxValue = _model.maxHealth;
         _view.RefreshUI();
+    }
+
+    private void OnDisable()
+    {
+        var allEnemyDetectionAreas = FindObjectsOfType<EnemyDetectionArea>(true).ToList();
+        allEnemyDetectionAreas.ForEach(area => area.ImmediateLosePlayer());
+    }
+
+    private void Update()
+    {
+        _view.SetTankCanonShootingState(_model.DetectionArea.TargetEnemies.Count > 0);
     }
 
     private void LateUpdate()
